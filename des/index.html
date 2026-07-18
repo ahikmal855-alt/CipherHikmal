@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DES CipherHikmal | Simulasi Data Encryption Standard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../assets/suite.css" />
+  <link rel="stylesheet" href="../assets/simple.css" />
+  <script src="../assets/theme.js"></script>
+</head>
+
+<body class="module-page module-des">
+  <header class="suite-topbar">
+    <div class="suite-topbar__inner">
+      <a class="suite-brand" href="../index.html" aria-label="Kembali ke beranda CipherHikmal">
+        <span class="suite-brand__mark">CH</span>
+        <span class="suite-brand__copy"><strong>CipherHikmal</strong><small>Simulasi Kriptografi Simetris</small></span>
+      </a>
+      <nav class="suite-nav" aria-label="Navigasi modul"><a href="../index.html">Beranda</a><a href="../des/index.html" aria-current="page">DES</a><a href="../sdes/index.html">S-DES</a><a href="../aes/index.html">AES-128</a><a href="../saes/index.html">S-AES</a></nav>
+      <button class="suite-theme-toggle" type="button" data-theme-toggle aria-label="Ganti tema">
+        <span class="suite-theme-toggle__sun" aria-hidden="true">☀</span>
+        <span class="suite-theme-toggle__moon" aria-hidden="true">◐</span>
+      </button>
+    </div>
+  </header>
+
+  <a class="suite-back-link" href="../index.html" aria-label="Kembali ke landing page CipherHikmal">← Kembali ke CipherHikmal</a>
+
+  <header class="hero">
+    <nav class="nav">
+      <a class="brand" href="#inputSection" aria-label="DES CipherHikmal">
+        <span class="brand-icon">KL</span>
+        <span>
+          <strong>DES CipherHikmal</strong>
+          <small>Full 64-bit Data Encryption Standard</small>
+        </span>
+      </a>
+      <div class="nav-pills" aria-label="Fitur utama">
+        <span>64-bit Input</span>
+        <span>K1–K16</span>
+        <span>16 Feistel Rounds</span>
+        <span>8 S-Box</span>
+      </div>
+    </nav>
+
+    <section class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Kriptografi</p>
+        <h1>Simulasi DES</h1>
+        <p>
+          Aplikasi ini menjalankan algoritma DES 64-bit dari awal sampai akhir: input biner/heksadesimal,
+          pembangkitan 16 subkunci, Initial Permutation, 16 putaran Feistel, lookup 8 S-Box,
+          permutasi P, swap, IP invers, output hex+biner, serta round-trip test.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-link" href="#inputSection">Mulai Simulasi</a>
+          <button id="selfTestBtn" class="soft-btn" type="button">Jalankan Self-Test</button>
+        </div>
+        <p id="statusLine" class="status-line">Siap memproses data DES 64-bit.</p>
+      </div>
+
+      <aside class="hero-panel" aria-label="Data uji standar">
+        <div class="panel-head">
+          <span>Data Uji Standar</span>
+          <b>Validasi DES</b>
+        </div>
+        <div class="sample-stack">
+          <label>Plaintext Hex</label>
+          <code>A1B2C3D4E5F60718</code>
+          <label>Key Hex</label>
+          <code>0F1571C947D9E859</code>
+          <label>Ciphertext Valid</label>
+          <code>D1E4A966815BFC44</code>
+        </div>
+        <div class="mini-note">Gunakan tombol contoh di form untuk mengisi data otomatis.</div>
+      </aside>
+    </section>
+  </header>
+
+  <main class="container">
+    <section class="card input-card" id="inputSection">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">Input</p>
+          <h2>Masukkan Plaintext/Ciphertext dan Kunci</h2>
+          <p class="muted">Input boleh berupa 16 digit heksadesimal atau 64 digit biner. Pilih format input sesuai data
+            yang digunakan agar validasi panjang data lebih jelas.</p>
+        </div>
+      </div>
+
+      <div class="quick-fill">
+        <button class="ghost-btn" id="fillSampleHexBtn" type="button">Contoh Enkripsi Hex</button>
+        <button class="ghost-btn" id="fillSampleBinBtn" type="button">Contoh Enkripsi Biner</button>
+        <button class="ghost-btn" id="fillDecryptHexBtn" type="button">Contoh Dekripsi Hex</button>
+        <button class="ghost-btn" id="fillDecryptBinBtn" type="button">Contoh Dekripsi Biner</button>
+      </div>
+
+      <div class="form-grid">
+        <label class="field">
+          <span>Format Input</span>
+          <select id="inputFormat">
+            <option value="bin">Biner 64-bit</option>
+            <option value="hex">Heksadesimal 16 digit</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Mode Operasi</span>
+          <select id="mode">
+            <option value="encrypt">Enkripsi</option>
+            <option value="decrypt">Dekripsi</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="field full">
+        <span id="inputLabel">Plaintext / Ciphertext 64-bit</span>
+        <textarea id="messageInput" rows="4" spellcheck="false"
+          placeholder="Hex: A1B2C3D4E5F60718&#10;atau biner: 1010000110110010110000111101010011100101111101100000011100011000"></textarea>
+        <small class="input-counter" id="messageCounter">0/64 bit biner</small>
+      </label>
+
+      <label class="field full">
+        <span>Kunci DES 64-bit</span>
+        <textarea id="keyInput" rows="4" spellcheck="false"
+          placeholder="Hex: 0F1571C947D9E859&#10;atau biner: 0000111100010101011100011100100101000111110110011110100001011001"></textarea>
+        <small class="input-counter" id="keyCounter">0/64 bit biner</small>
+      </label>
+
+      <div class="actions">
+        <button id="processBtn" class="primary-btn" type="button">Proses DES</button>
+        <button id="roundTripBtn" class="secondary-btn" type="button" disabled>Round-trip Test</button>
+        <button id="resetBtn" class="danger-btn" type="button">Reset / Clear</button>
+      </div>
+      <p id="errorBox" class="error-box" hidden></p>
+    </section>
+
+    <section class="result-grid" id="resultSection" hidden>
+      <article class="card result-card">
+        <div class="section-title compact-title">
+          <div>
+            <p class="eyebrow">Output Akhir</p>
+            <h2 id="resultTitle">Ciphertext</h2>
+          </div>
+          <button id="copyOutputBtn" class="ghost-btn" type="button">Salin Output</button>
+        </div>
+        <p class="detected" id="detectedInfo">-</p>
+        <div class="preview-row">
+          <div><span>Input Hex</span><code id="inputHexPreview">-</code></div>
+          <div><span>Key Hex</span><code id="keyHexPreview">-</code></div>
+        </div>
+        <div class="result-value" id="hexOutput">-</div>
+        <p class="muted">Output format heksadesimal</p>
+        <div class="bit-grid compact" id="binaryOutput"></div>
+      </article>
+
+      <article class="card result-card">
+        <p class="eyebrow">Verifikasi</p>
+        <h2>Round-trip Test</h2>
+        <p class="muted">Verifikasi dilakukan dengan memproses balik output menggunakan kunci yang sama. Enkripsi akan
+          diuji dengan dekripsi, dan dekripsi akan diuji dengan enkripsi.</p>
+        <div id="roundTripResult" class="verify-box">Belum dijalankan.</div>
+      </article>
+    </section>
+
+    <section class="card" id="keyScheduleSection" hidden>
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">04 / Key Schedule</p>
+          <h2>Pembangkitan 16 Subkunci K1–K16</h2>
+          <p class="muted">Kunci 64-bit diproses melalui PC-1, dibagi menjadi C0 dan D0, digeser sesuai jadwal LS, lalu
+            dipermutasi PC-2 menjadi subkunci 48-bit.</p>
+        </div>
+        <button class="ghost-btn toggle-btn" data-target="keyScheduleBody" type="button">Sembunyikan</button>
+      </div>
+      <div id="keyScheduleBody">
+        <div class="step-box">
+          <div class="step-head">
+            <h3>PC-1</h3>
+            <code id="pc1Hex">-</code>
+          </div>
+          <p class="muted">Hasil PC-1 berukuran 56-bit karena bit paritas dari kunci 64-bit tidak digunakan.</p>
+          <div class="bit-grid" id="pc1Bits"></div>
+        </div>
+        <div class="two-col">
+          <div class="step-box">
+            <h3>C0</h3>
+            <div class="bit-grid compact" id="c0Bits"></div>
+          </div>
+          <div class="step-box">
+            <h3>D0</h3>
+            <div class="bit-grid compact" id="d0Bits"></div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="subkeyTable">
+            <thead>
+              <tr>
+                <th>Subkunci</th>
+                <th>LS</th>
+                <th>Cn setelah LS</th>
+                <th>Dn setelah LS</th>
+                <th>Kn hasil PC-2</th>
+                <th>Hex</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="processSection" hidden>
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">05 / Proses Enkripsi-Dekripsi</p>
+          <h2>IP, 16 Round Feistel, Swap, dan IP Invers</h2>
+          <p class="muted">Setiap round menampilkan ekspansi E, XOR dengan subkunci, lookup 8 S-Box, permutasi P, dan
+            hasil swap L/R.</p>
+        </div>
+        <button class="ghost-btn toggle-btn" data-target="processBody" type="button">Sembunyikan</button>
+      </div>
+      <div id="processBody">
+        <div class="step-box">
+          <div class="step-head">
+            <h3>Initial Permutation (IP)</h3>
+            <code id="ipHex">-</code>
+          </div>
+          <div class="bit-grid" id="ipBits"></div>
+          <div class="two-col mt">
+            <div>
+              <h4>L0</h4>
+              <div class="bit-grid compact" id="l0Bits"></div>
+            </div>
+            <div>
+              <h4>R0</h4>
+              <div class="bit-grid compact" id="r0Bits"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="roundsContainer" class="rounds"></div>
+
+        <div class="step-box">
+          <div class="step-head">
+            <h3>Preoutput R16 + L16</h3>
+            <code id="preoutputHex">-</code>
+          </div>
+          <p class="muted">Setelah 16 round, pasangan akhir digabung sebagai R16L16 sebelum masuk ke IP invers.</p>
+          <div class="bit-grid" id="preoutputBits"></div>
+        </div>
+        <div class="step-box">
+          <h3>Inverse Initial Permutation (IP⁻¹)</h3>
+          <div class="bit-grid" id="finalBits"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>DES CipherHikmal</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

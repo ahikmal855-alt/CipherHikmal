@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CipherHikmal adalah aplikasi simulasi DES, S-DES, AES-128, dan S-AES dengan langkah perhitungan lengkap." />
+  <meta name="theme-color" content="#2563eb" />
+  <title>CipherHikmal | Simulasi Kriptografi Simetris</title>
+  <link rel="stylesheet" href="assets/suite.css" />
+  <link rel="stylesheet" href="assets/simple.css" />
+  <script src="assets/theme.js"></script>
+</head>
+<body class="simple-landing">
+  <header class="suite-topbar">
+    <div class="suite-topbar__inner">
+      <a class="suite-brand" href="index.html" aria-label="Beranda CipherHikmal">
+        <span class="suite-brand__mark">KS</span>
+        <span class="suite-brand__copy"><strong>CipherHikmal</strong><small>Simulasi Kriptografi Simetris</small></span>
+      </a>
+      <nav class="suite-nav" aria-label="Navigasi utama">
+        <a href="#algoritma">Algoritma</a>
+        <a href="#panduan">Panduan</a>
+        <a href="#data-uji">Data Uji</a>
+      </nav>
+      <button class="suite-theme-toggle" type="button" data-theme-toggle aria-label="Ganti tema">
+        <span class="suite-theme-toggle__sun" aria-hidden="true">☀</span>
+        <span class="suite-theme-toggle__moon" aria-hidden="true">◐</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="simple-hero page-shell">
+      <div>
+        <p class="simple-eyebrow">Web Simulasi Kriptografi</p>
+        <h1>Pelajari proses DES, S-DES, AES-128, dan S-AES secara bertahap.</h1>
+        <p class="simple-lead">Setiap modul menyediakan mode enkripsi dan dekripsi, validasi input, pembentukan subkey atau round key, hasil akhir, serta rincian perhitungan yang dapat ditampilkan atau disembunyikan.</p>
+        <div class="simple-actions">
+          <a class="simple-button primary" href="#algoritma">Pilih algoritma</a>
+          <a class="simple-button secondary" href="#panduan">Cara menggunakan</a>
+        </div>
+      </div>
+      <aside class="simple-summary" aria-label="Ringkasan aplikasi">
+        <h2>Isi aplikasi</h2>
+        <dl>
+          <div><dt>Algoritma</dt><dd>4 modul</dd></div>
+          <div><dt>Operasi</dt><dd>Enkripsi & dekripsi</dd></div>
+          <div><dt>Perhitungan</dt><dd>Step-by-step</dd></div>
+          <div><dt>Tampilan</dt><dd>Terang & gelap</dd></div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="simple-section page-shell" id="algoritma">
+      <div class="simple-section-heading">
+        <p class="simple-eyebrow">Pilih Modul</p>
+        <h2>Empat algoritma dalam satu aplikasi</h2>
+        <p>Gunakan data sendiri atau tombol data contoh pada masing-masing modul.</p>
+      </div>
+      <div class="simple-card-grid">
+        <article class="simple-card">
+          <span class="simple-badge">64-bit · 16 ronde</span>
+          <h3>DES</h3>
+          <p>Menampilkan PC-1, pergeseran C/D, PC-2, 16 subkey, Initial Permutation, fungsi Feistel, delapan S-Box, permutasi P, dan IP invers.</p>
+          <code>D1E4A966815BFC44</code>
+          <a href="des/index.html">Buka modul DES →</a>
+        </article>
+        <article class="simple-card">
+          <span class="simple-badge">8-bit · 2 ronde</span>
+          <h3>S-DES</h3>
+          <p>Menampilkan P10, LS-1, LS-2, P8, K1/K2, IP, E/P, S0/S1, P4, swap, dan IP invers.</p>
+          <code>10101000</code>
+          <a href="sdes/index.html">Buka modul S-DES →</a>
+        </article>
+        <article class="simple-card">
+          <span class="simple-badge">128-bit · 10 ronde</span>
+          <h3>AES-128</h3>
+          <p>Menampilkan key schedule W[0]–W[43], RK0–RK10, SubBytes, ShiftRows, MixColumns, AddRoundKey, dan operasi invers.</p>
+          <code>3AD77BB40D7A3660…</code>
+          <a href="aes/index.html">Buka modul AES-128 →</a>
+        </article>
+        <article class="simple-card">
+          <span class="simple-badge">16-bit · 2 ronde</span>
+          <h3>S-AES</h3>
+          <p>Menampilkan w0–w5, K0–K2, SubNibbles, ShiftRows, MixColumns pada GF(2⁴), AddRoundKey, dan operasi invers.</p>
+          <code>24EC</code>
+          <a href="saes/index.html">Buka modul S-AES →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="simple-section page-shell" id="panduan">
+      <div class="simple-section-heading">
+        <p class="simple-eyebrow">Panduan</p>
+        <h2>Alur penggunaan</h2>
+      </div>
+      <ol class="simple-steps">
+        <li><span>1</span><div><strong>Pilih modul</strong><p>Buka DES, S-DES, AES-128, atau S-AES dari kartu algoritma.</p></div></li>
+        <li><span>2</span><div><strong>Pilih mode dan format</strong><p>Tentukan enkripsi atau dekripsi, lalu gunakan format input yang tersedia.</p></div></li>
+        <li><span>3</span><div><strong>Isi input dan kunci</strong><p>Masukkan data manual atau gunakan data contoh yang telah disediakan.</p></div></li>
+        <li><span>4</span><div><strong>Periksa solusi</strong><p>Bandingkan output akhir dengan key generation dan setiap tahap ronde.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="simple-section page-shell" id="data-uji">
+      <div class="simple-section-heading">
+        <p class="simple-eyebrow">Data Contoh</p>
+        <h2>Empat kasus uji yang berbeda</h2>
+        <p>Pasangan plaintext, kunci, dan ciphertext berikut sudah disesuaikan dengan implementasi aplikasi.</p>
+      </div>
+      <div class="simple-table-wrap">
+        <table class="simple-table">
+          <thead><tr><th>Algoritma</th><th>Plaintext</th><th>Kunci</th><th>Ciphertext</th></tr></thead>
+          <tbody>
+            <tr><td>DES</td><td><code>A1B2C3D4E5F60718</code></td><td><code>0F1571C947D9E859</code></td><td><code>D1E4A966815BFC44</code></td></tr>
+            <tr><td>S-DES</td><td><code>11010111</code></td><td><code>1010000010</code></td><td><code>10101000</code></td></tr>
+            <tr><td>AES-128</td><td><code>6BC1BEE22E409F96E93D7E117393172A</code></td><td><code>2B7E151628AED2A6ABF7158809CF4F3C</code></td><td><code>3AD77BB40D7A3660A89ECAF32466EF97</code></td></tr>
+            <tr><td>S-AES</td><td><code>D728</code></td><td><code>4AF5</code></td><td><code>24EC</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="simple-section page-shell">
+      <div class="simple-checklist">
+        <p class="simple-eyebrow">Fitur</p>
+        <h2>Yang dapat dilakukan aplikasi</h2>
+        <ul>
+          <li>Enkripsi dan dekripsi blok data dengan kunci simetris.</li>
+          <li>Validasi input biner, hex, dan teks.</li>
+          <li>Visualisasi langkah perhitungan algoritma.</li>
+          <li>Mode terang dan gelap.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="simple-footer page-shell">
+    <strong>CipherHikmal</strong>
+    <span>DES · S-DES · AES-128 · S-AES</span>
+  </footer>
+</body>
+</html>

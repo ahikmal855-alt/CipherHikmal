@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Simulator web Simplified AES (S-AES) 16-bit dengan perhitungan enkripsi dan dekripsi langkah demi langkah." />
+  <title>Simulator S-AES 16-bit</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../assets/suite.css" />
+  <link rel="stylesheet" href="../assets/simple.css" />
+  <script src="../assets/theme.js"></script>
+</head>
+
+<body class="module-page module-saes">
+  <header class="suite-topbar">
+    <div class="suite-topbar__inner">
+      <a class="suite-brand" href="../index.html" aria-label="Kembali ke beranda CipherHikmal">
+        <span class="suite-brand__mark">CH</span>
+        <span class="suite-brand__copy"><strong>CipherHikmal</strong><small>Simulasi Kriptografi Simetris</small></span>
+      </a>
+      <nav class="suite-nav" aria-label="Navigasi modul"><a href="../index.html">Beranda</a><a href="../des/index.html">DES</a><a href="../sdes/index.html">S-DES</a><a href="../aes/index.html">AES-128</a><a href="../saes/index.html" aria-current="page">S-AES</a></nav>
+      <button class="suite-theme-toggle" type="button" data-theme-toggle aria-label="Ganti tema">
+        <span class="suite-theme-toggle__sun" aria-hidden="true">☀</span>
+        <span class="suite-theme-toggle__moon" aria-hidden="true">◐</span>
+      </button>
+    </div>
+  </header>
+
+  <a class="suite-back-link" href="../index.html" aria-label="Kembali ke landing page ">← Kembali ke CipherHikmal</a>
+CipherHikmal
+  <header class="hero">
+    <div class="hero__inner container">
+      <div>
+        <p class="eyebrow">KRIPTOLAB • SIMULATOR EDUKATIF</p>
+        <h1>Simplified AES (S-AES)</h1>
+        <p class="hero__subtitle">
+          Enkripsi dan dekripsi blok 16-bit dengan visualisasi lengkap Key Expansion,
+          SubNibbles, ShiftRows, MixColumns, dan AddRoundKey.
+        </p>
+      </div>
+      <div class="hero__badge" aria-label="Spesifikasi algoritma">
+        <span>16-bit block</span>
+        <span>16-bit key</span>
+        <span>2 rounds</span>
+        <span>GF(2⁴)</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-layout">
+    <section class="card input-card" aria-labelledby="input-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Input</p>
+          <h2 id="input-title">Mulai simulasi</h2>
+        </div>
+      </div>
+
+      <form id="saesForm" novalidate>
+        <fieldset class="mode-selector">
+          <legend>Mode operasi</legend>
+          <label class="mode-option">
+            <input type="radio" name="mode" value="encrypt" checked />
+            <span>
+              <strong>Enkripsi</strong>
+              <small>Plaintext → Ciphertext</small>
+            </span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="mode" value="decrypt" />
+            <span>
+              <strong>Dekripsi</strong>
+              <small>Ciphertext → Plaintext</small>
+            </span>
+          </label>
+        </fieldset>
+
+        <div class="form-group">
+          <div class="label-row">
+            <label for="inputFormat">Format input</label>
+          </div>
+          <select id="inputFormat" name="inputFormat">
+            <option value="bin">Biner 16-bit</option>
+            <option value="hex">Heksadesimal 4 digit</option>
+          </select>
+          <small>Format berlaku untuk plaintext/ciphertext dan kunci.</small>
+        </div>
+
+        <div class="form-group">
+          <div class="label-row">
+            <label id="dataLabel" for="dataInput">Plaintext 16-bit</label>
+            <span id="dataCount" class="char-count">0/16 bit</span>
+          </div>
+          <input id="dataInput" name="dataInput" type="text" inputmode="text" autocomplete="off" spellcheck="false"
+            maxlength="23" placeholder="Contoh: 0110 1111 0110 1011" aria-describedby="dataHelp dataError" />
+          <small id="dataHelp">Masukkan tepat 16 karakter biner. Spasi antarnibble diperbolehkan.</small>
+          <p id="dataError" class="error-message" role="alert"></p>
+        </div>
+
+        <div class="form-group">
+          <div class="label-row">
+            <label for="keyInput">Kunci 16-bit</label>
+            <span id="keyCount" class="char-count">0/16 bit</span>
+          </div>
+          <input id="keyInput" name="keyInput" type="text" inputmode="text" autocomplete="off" spellcheck="false"
+            maxlength="23" placeholder="Contoh: 1010 0111 0011 1011" aria-describedby="keyHelp keyError" />
+          <small id="keyHelp">Kunci selalu berukuran 16-bit untuk enkripsi maupun dekripsi.</small>
+          <p id="keyError" class="error-message" role="alert"></p>
+        </div>
+
+        <div class="example-panel" aria-labelledby="example-title">
+          <div class="example-panel__header">
+            <div>
+              <span class="example-panel__eyebrow">Data contoh siap pakai</span>
+              <strong id="example-title">Uji aplikasi tanpa mengetik data manual</strong>
+            </div>
+            <span class="example-chip">16-bit</span>
+          </div>
+
+          <label for="exampleSelect">Pilih kasus pengujian</label>
+          <div class="example-control-row">
+            <select id="exampleSelect" aria-describedby="exampleHelp">
+              <option value="main">Contoh utama — P: D728, K: 4AF5</option>
+              <option value="second">Contoh 2 — P: 1234, K: 5678</option>
+              <option value="third">Contoh 3 — P: 6F6B, K: A73B</option>
+            </select>
+            <button id="fillExampleButton" class="button button--example" type="button">Isi Data Contoh</button>
+            <button id="runExampleButton" class="button button--secondary" type="button">Isi &amp; Jalankan</button>
+          </div>
+
+          <div id="examplePreview" class="example-preview" aria-live="polite"></div>
+          <small id="exampleHelp">Pada mode enkripsi, kolom input diisi plaintext. Pada mode dekripsi, kolom input
+            otomatis diisi ciphertext pasangannya.</small>
+        </div>
+
+        <div class="form-actions">
+          <button class="button button--primary" type="submit">SUBMIT</button>
+          <button id="resetButton" class="button button--secondary" type="reset">RESET</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="resultPanel" class="card result-card hidden" aria-live="polite" aria-labelledby="result-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Output</p>
+          <h2 id="result-title">Hasil simulasi</h2>
+        </div>
+        <span id="modeBadge" class="status-badge">Enkripsi</span>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-box">
+          <span id="binaryResultLabel">Ciphertext biner</span>
+          <strong id="binaryResult" class="mono result-value"></strong>
+          <button id="copyBinaryButton" class="copy-button" type="button">Salin</button>
+        </div>
+        <div class="result-box">
+          <span id="hexResultLabel">Ciphertext heksadesimal</span>
+          <strong id="hexResult" class="mono result-value"></strong>
+          <button id="copyHexButton" class="copy-button" type="button">Salin</button>
+        </div>
+      </div>
+
+      <div class="result-summary" id="resultSummary"></div>
+    </section>
+
+    <section id="stepsPanel" class="steps-panel hidden" aria-labelledby="steps-title">
+      <div class="steps-toolbar card">
+        <div>
+          <p class="section-kicker">Perhitungan</p>
+          <h2 id="steps-title">Langkah demi langkah</h2>
+        </div>
+        <div class="toolbar-actions">
+          <button id="expandAllButton" class="button button--small button--secondary" type="button">Buka semua</button>
+          <button id="collapseAllButton" class="button button--small button--secondary" type="button">Tutup
+            semua</button>
+        </div>
+      </div>
+      <div id="stepsContainer"></div>
+    </section>
+
+    <section class="card reference-card" aria-labelledby="reference-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Referensi algoritma</p>
+          <h2 id="reference-title">Tabel dan konstanta S-AES</h2>
+        </div>
+      </div>
+
+      <div class="reference-grid">
+        <div>
+          <h3>S-Box (SubNibble)</h3>
+          <div id="sboxTable" class="table-scroll"></div>
+        </div>
+        <div>
+          <h3>Inverse S-Box</h3>
+          <div id="inverseSboxTable" class="table-scroll"></div>
+        </div>
+      </div>
+
+      <div class="constant-grid">
+        <article class="constant-card">
+          <h3>MixColumns</h3>
+          <div class="math-matrix" aria-label="Matriks MixColumns">
+            <span>1</span><span>4</span><span>4</span><span>1</span>
+          </div>
+        </article>
+        <article class="constant-card">
+          <h3>InvMixColumns</h3>
+          <div class="math-matrix" aria-label="Matriks inverse MixColumns">
+            <span>9</span><span>2</span><span>2</span><span>9</span>
+          </div>
+        </article>
+        <article class="constant-card">
+          <h3>Round constants</h3>
+          <p class="mono">RCON1 = 1000 0000 (0x80)</p>
+          <p class="mono">RCON2 = 0011 0000 (0x30)</p>
+        </article>
+        <article class="constant-card">
+          <h3>Galois Field</h3>
+          <p>GF(2⁴), modulus:</p>
+          <p class="formula">m(x) = x⁴ + x + 1</p>
+          <p class="mono">10011 (0x13)</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <p>Kriptolab</p>
+      <p>S-AES Simulator</p>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

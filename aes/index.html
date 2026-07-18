@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CipherHikmal | AES-128 Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../assets/suite.css" />
+  <link rel="stylesheet" href="../assets/simple.css" />
+  <script src="../assets/theme.js"></script>
+</head>
+<body class="module-page module-aes min-h-screen text-slate-100">
+  <header class="suite-topbar">
+    <div class="suite-topbar__inner">
+      <a class="suite-brand" href="../index.html" aria-label="Kembali ke beranda CipherHikmal">
+        <span class="suite-brand__mark">CH</span>
+        <span class="suite-brand__copy"><strong>CipherHikmal</strong><small>Simulasi Kriptografi Simetris</small></span>
+      </a>
+      <nav class="suite-nav" aria-label="Navigasi modul"><a href="../index.html">Beranda</a><a href="../des/index.html">DES</a><a href="../sdes/index.html">S-DES</a><a href="../aes/index.html" aria-current="page">AES-128</a><a href="../saes/index.html">S-AES</a></nav>
+      <button class="suite-theme-toggle" type="button" data-theme-toggle aria-label="Ganti tema">
+        <span class="suite-theme-toggle__sun" aria-hidden="true">☀</span>
+        <span class="suite-theme-toggle__moon" aria-hidden="true">◐</span>
+      </button>
+    </div>
+  </header>
+
+  <a class="suite-back-link" href="../index.html" aria-label="Kembali ke landing page CipherHikmal">← Kembali ke CipherHikmal</a>
+
+  <header class="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+    <section class="glass hero-panel rounded-[2rem] p-6 sm:p-8 lg:p-10">
+      <div class="flex flex-col gap-8 xl:flex-row xl:items-end xl:justify-between">
+        <div class="max-w-4xl">
+          <div class="inline-flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.25em] text-amber-200">
+            <span class="h-2 w-2 rounded-full bg-amber-300"></span>
+            CipherHikmal
+          </div>
+          <h1 class="mt-4 text-3xl font-black tracking-tight text-white sm:text-5xl">CipherHikmal AES-128 Visualizer</h1>
+          <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
+            Aplikasi pembelajaran kriptografi yang memvisualisasikan proses AES-128 secara rinci. Seluruh logika AES ditulis manual dengan Vanilla JavaScript, termasuk Key Expansion, SubBytes, ShiftRows, MixColumns, AddRoundKey, serta seluruh operasi inverse untuk dekripsi.
+          </p>
+          <div class="mt-6 grid gap-3 sm:grid-cols-3">
+            <div class="hero-stat">
+              <div class="hero-stat-label">Mode</div>
+              <div class="hero-stat-value">ECB, 1 block</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-label">Parameter</div>
+              <div class="hero-stat-value">128-bit key, 10 ronde</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-label">Matematika</div>
+              <div class="hero-stat-value">GF(2<sup>8</sup>) · 0x11B</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full max-w-md rounded-[1.5rem] border border-white/10 bg-white/5 p-5 shadow-2xl shadow-black/20 backdrop-blur">
+          <div class="text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Ringkasan Implementasi</div>
+          <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-300">
+            <li class="feature-item"><span class="feature-dot"></span> Tanpa CryptoJS, Web Crypto API, atau library kriptografi pihak ketiga.</li>
+            <li class="feature-item"><span class="feature-dot"></span> Visualisasi State Matrix 4 × 4 untuk setiap langkah dan setiap ronde.</li>
+            <li class="feature-item"><span class="feature-dot"></span> Dilengkapi tabel S-Box, inverse S-Box, Rcon, MixColumns, dan InvMixColumns.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </header>
+
+  <main class="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[19rem_minmax(0,1fr)] lg:px-8">
+    <aside class="space-y-6 lg:sticky lg:top-5 lg:self-start">
+      <section class="glass rounded-[1.75rem] p-5">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <h2 class="text-sm font-black uppercase tracking-[0.18em] text-slate-200">Navigasi</h2>
+            <p class="mt-1 text-xs text-slate-400">Bagian aktif akan disorot saat Anda scroll.</p>
+          </div>
+          <span id="navCounter" class="nav-counter">0</span>
+        </div>
+        <nav id="roundNav" class="mt-4 space-y-1 text-sm"></nav>
+      </section>
+
+      <section class="glass rounded-[1.75rem] p-5">
+        <h3 class="text-sm font-black uppercase tracking-[0.18em] text-slate-200">Legenda Warna</h3>
+        <div class="mt-4 grid gap-2 text-xs text-slate-300">
+          <div class="legend-item"><span class="legend-swatch legend-subbytes"></span> SubBytes</div>
+          <div class="legend-item"><span class="legend-swatch legend-shiftrows"></span> ShiftRows</div>
+          <div class="legend-item"><span class="legend-swatch legend-mixcolumns"></span> MixColumns</div>
+          <div class="legend-item"><span class="legend-swatch legend-key"></span> AddRoundKey / Round Key</div>
+          <div class="legend-item"><span class="legend-swatch legend-output"></span> Output / State akhir</div>
+        </div>
+      </section>
+    </aside>
+
+    <section class="space-y-6">
+      <section id="controls" class="glass rounded-[1.75rem] p-5 sm:p-6 lg:p-7">
+        <div class="flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 class="text-2xl font-black text-white">Panel Input</h2>
+            <p class="mt-1 text-sm leading-6 text-slate-400">Masukkan data sendiri atau gunakan contoh input yang telah disediakan.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button id="exampleHexBtn" class="btn-secondary">Isi Contoh Hex</button>
+            <button id="exampleTextBtn" class="btn-secondary">Isi Contoh Teks</button>
+            <button id="loadVectorBtn" class="btn-secondary">Muat Test Vector NIST</button>
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-4 xl:grid-cols-2">
+          <div>
+            <label for="mode" class="mb-2 block text-sm font-bold text-slate-200">Mode Operasi</label>
+            <select id="mode" class="input-base">
+              <option value="encrypt">Enkripsi</option>
+              <option value="decrypt">Dekripsi</option>
+            </select>
+          </div>
+          <div>
+            <label for="inputFormat" class="mb-2 block text-sm font-bold text-slate-200">Format Input</label>
+            <select id="inputFormat" class="input-base">
+              <option value="hex">Hexadecimal, tepat 32 digit</option>
+              <option value="text">Teks, maksimum 16 byte UTF-8</option>
+            </select>
+          </div>
+
+          <div class="xl:col-span-2">
+            <label id="inputLabel" for="dataInput" class="mb-2 block text-sm font-bold text-slate-200">Plaintext / Ciphertext</label>
+            <textarea id="dataInput" rows="4" class="input-base min-h-[8rem] font-mono text-sm" spellcheck="false" placeholder="Contoh hex: 6bc1bee22e409f96e93d7e117393172a&#10;Contoh teks: CipherHikmal AES"></textarea>
+            <p id="inputHint" class="mt-2 text-xs leading-5 text-slate-400">Mode hex membutuhkan tepat 32 digit. State dipetakan secara column-major sesuai AES: s[r,c] = input[r + 4c].</p>
+          </div>
+
+          <div class="xl:col-span-2">
+            <label for="keyInput" class="mb-2 block text-sm font-bold text-slate-200">Kunci AES-128</label>
+            <input id="keyInput" class="input-base font-mono text-sm" spellcheck="false" placeholder="Contoh: 2b7e151628aed2a6abf7158809cf4f3c" />
+            <p class="mt-2 text-xs leading-5 text-slate-400">Kunci harus tepat 32 digit heksadesimal atau 16 byte.</p>
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+          <div class="grid gap-3 sm:grid-cols-3">
+            <div class="info-card">
+              <div class="info-card-label">State Matrix</div>
+              <div class="info-card-value">4 × 4 byte</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-label">Key Schedule</div>
+              <div class="info-card-value">W[0] - W[43]</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-label">Output</div>
+              <div class="info-card-value">Hex string</div>
+            </div>
+          </div>
+          <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
+            <button id="runBtn" class="btn-primary">Jalankan Proses</button>
+            <button id="toggleDetailBtn" class="btn-secondary">Sembunyikan Detail</button>
+            <button id="resetBtn" class="btn-secondary">Reset</button>
+          </div>
+        </div>
+
+        <div id="message" class="mt-5 hidden rounded-2xl border px-4 py-3 text-sm"></div>
+      </section>
+
+      <section id="summary" class="hidden glass rounded-[1.75rem] p-5 sm:p-6"></section>
+      <section id="visualization" class="space-y-6"></section>
+
+      <section id="reference" class="glass rounded-[1.75rem] p-5 sm:p-6">
+        <div class="flex flex-col gap-2 border-b border-white/10 pb-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 class="text-xl font-black text-white">Tabel Referensi AES</h2>
+            <p class="mt-1 text-sm leading-6 text-slate-400">Konstanta yang digunakan oleh implementasi untuk memastikan hasil perhitungan konsisten dengan AES-128.</p>
+          </div>
+        </div>
+        <div id="constantTables" class="mt-5 space-y-5"></div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+    <div class="rounded-[1.5rem] border border-white/10 bg-slate-950/55 p-4 text-xs leading-5 text-slate-400">
+      Catatan: CipherHikmal ini dirancang untuk kebutuhan pembelajaran, audit langkah algoritma, dan presentasi teknis AES-128 satu blok. Mode ECB dipakai agar setiap transformasi State Matrix mudah ditelusuri secara visual.
+    </div>
+  </footer>
+
+  <script src="aes.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

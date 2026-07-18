@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S-DES Simulator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../assets/suite.css" />
+  <link rel="stylesheet" href="../assets/simple.css" />
+  <script src="../assets/theme.js"></script>
+</head>
+
+<body class="module-page module-sdes">
+  <header class="suite-topbar">
+    <div class="suite-topbar__inner">
+      <a class="suite-brand" href="../index.html" aria-label="Kembali ke beranda CipherHikmal">
+        <span class="suite-brand__mark">CH</span>
+        <span class="suite-brand__copy"><strong>CipherHikmal</strong><small>Simulasi Kriptografi Simetris</small></span>
+      </a>
+      <nav class="suite-nav" aria-label="Navigasi modul"><a href="../index.html">Beranda</a><a
+          href="../des/index.html">DES</a><a href="../sdes/index.html" aria-current="page">S-DES</a><a
+          href="../aes/index.html">AES-128</a><a href="../saes/index.html">S-AES</a></nav>
+      <button class="suite-theme-toggle" type="button" data-theme-toggle aria-label="Ganti tema">
+        <span class="suite-theme-toggle__sun" aria-hidden="true">☀</span>
+        <span class="suite-theme-toggle__moon" aria-hidden="true">◐</span>
+      </button>
+    </div>
+  </header>
+
+  <a class="suite-back-link" href="../index.html" aria-label="Kembali ke landing page CipherHikmal">← Kembali ke
+    CipherHikmal</a>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="badge">CipherHikmal</p>
+      <h1>S-DES Simulator</h1>
+      <p>
+        Simulasi enkripsi dan dekripsi Simplified Data Encryption Standard dengan
+        tampilan langkah perhitungan lengkap: key generation, IP, fK, SW,
+        S-Box, P4, dan IP<sup>-1</sup>.
+      </p>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card input-card">
+      <div class="section-head">
+        <span class="section-number">01</span>
+        <div>
+          <h2>Input Data</h2>
+          <p>Masukkan plaintext/ciphertext 8-bit dan key 10-bit dalam bentuk biner.</p>
+        </div>
+      </div>
+
+      <form id="sdesForm" autocomplete="off">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="inputBits">Plaintext / Ciphertext 8-bit</label>
+            <input id="inputBits" type="text" maxlength="8" inputmode="numeric" placeholder="Contoh: 11010111" />
+            <small>Wajib 8 karakter dan hanya boleh angka 0 atau 1.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="keyBits">Key 10-bit</label>
+            <input id="keyBits" type="text" maxlength="10" inputmode="numeric" placeholder="Contoh: 1010000010" />
+            <small>Wajib 10 karakter dan hanya boleh angka 0 atau 1.</small>
+          </div>
+        </div>
+
+        <div class="mode-area">
+          <p>Mode Operasi</p>
+          <label class="radio-card">
+            <input type="radio" name="mode" value="encrypt" checked />
+            <span>Enkripsi</span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="mode" value="decrypt" />
+            <span>Dekripsi</span>
+          </label>
+        </div>
+
+        <div id="errorBox" class="error hidden"></div>
+
+        <div class="actions">
+          <button class="btn primary" type="submit">SUBMIT</button>
+          <button class="btn secondary" type="button" id="resetBtn">RESET</button>
+          <button class="btn ghost" type="button" id="exampleBtn">ISI CONTOH</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="resultSection" class="card result-card hidden">
+      <div class="section-head">
+        <span class="section-number">02</span>
+        <div>
+          <h2>Hasil</h2>
+          <p id="resultDescription">Output akhir proses S-DES.</p>
+        </div>
+      </div>
+
+      <div class="result-panel">
+        <div>
+          <p class="result-label" id="resultLabel">Ciphertext</p>
+          <div id="resultBits" class="bit-output"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="solutionSection" class="card solution-card hidden">
+      <button id="toggleSolution" class="toggle" type="button">
+        Tampilkan Solusi Penyelesaian
+      </button>
+      <div id="solutionBox" class="solution hidden">
+        <div id="solutionContent"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>S-DES Simulator • CipherHikmal</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
